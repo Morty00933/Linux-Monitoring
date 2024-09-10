@@ -1,0 +1,35 @@
+#!/bin/bash
+
+timedatectl set-timezone Europe/Moscow
+export HOSTNAME=$(hostname)
+bash color.sh "HOSTNAME =" "$HOSTNAME"
+export TIMEZONE="$(timedatectl | awk '{print$3 " "$4$5$6}' | grep /)"
+bash color.sh e"TIMEZONE =" "$TIMEZONE"
+export USER="$(whoami)"
+bash color.sh "USER =" "$USER"
+export OS="$(cat /etc/issue | awk '{print$1 $2}')"
+bash color.sh "OS =" "$OS"
+export DATE="$(date +"%d %b %Y %l:%M:%S")"
+bash color.sh "DATE =" "$DATE"
+export UPTIME="$(uptime -p)"
+bash color.sh "UPTIME =" "$UPTIME"
+export UPTIME_SEC="$(cat /proc/uptime | awk '{printf$2}')"
+bash color.sh "UPTIME_SEC =" "$UPTIME_SEC"
+export IP="$(hostname -i)"
+bash color.sh "IP =" "$IP"
+export MASK=$(ip route | awk '{print $4}' | awk '(NR == 2)')
+bash color.sh  "MASK =" "$MASK"
+export GATEWAY=$(ip r | awk '{print $3}' | awk '(NR == 1)')
+bash color.sh "GATEWAY =" "$GATEWAY"
+export RAM_TOTAL="$(cat /proc/meminfo | grep MemTotal | awk '{printf "%.3f", $2/1024/1024}')"
+bash color.sh "RAM_TOTAL =" "$RAM_TOTAL GB"
+export RAM_USED="$(free | awk 'FNR == 2 {printf "%.3f", $3/1024/1024}')"
+bash color.sh "RAM_USED =" "$RAM_USED GB"
+export RAM_FREE="$(free | awk 'FNR == 2 {printf "%.3f", $4/1024/1024}')"
+bash color.sh "RAM_FREE =" "$RAM_FREE GB"
+export SPACE_ROOT="$(df /root/ | awk 'FNR == 2 {printf "%.3f", $2/1024}')"
+bash color.sh "SPACE_ROOT =" "$SPACE_ROOT MB"
+export SPACE_ROOT_USED="$(df /root/ | awk 'FNR == 2 {printf "%.3f", $3/1024}')"
+bash color.sh "SPACE_ROOT_USED =" "$SPACE_ROOT_USED MB"
+export SPACE_ROOT_FREE="$(df /root/ | awk 'FNR == 2 {printf "%.3f", $4/1024}')"
+bash color.sh "SPACE_ROOT_FREE =" "$SPACE_ROOT_FREE MB"
